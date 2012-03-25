@@ -17,12 +17,6 @@ if !exists("main_syntax")
   let main_syntax = 'javascript'
 endif
 
-"" Drop fold if it set but VIM doesn't support it.
-let b:javascript_fold='true'
-if version < 600    " Don't support the old version
-  unlet! b:javascript_fold
-endif
-
 "" dollar sigh is permittd anywhere in an identifier
 setlocal iskeyword+=$
 
@@ -153,7 +147,7 @@ if main_syntax == "javascript"
 endif
 
 "" Fold control
-if exists("b:javascript_fold")
+if v:version >= 600 && (exists("b:javascript_fold") ? get(b:, "javascript_fold") : get(g:, "javascript_fold"))
     syntax match   javaScriptFunction       /\<function\>/ nextgroup=javaScriptFuncName skipwhite
     syntax match   javaScriptOpAssign       /=\@<!=/ nextgroup=javaScriptFuncBlock skipwhite skipempty
     syntax region  javaScriptFuncName       contained matchgroup=javaScriptFuncName start=/\%(\$\|\w\)*\s*(/ end=/)/ contains=javaScriptLineComment,javaScriptComment nextgroup=javaScriptFuncBlock skipwhite skipempty
