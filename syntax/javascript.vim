@@ -147,7 +147,7 @@ if main_syntax == "javascript"
 endif
 
 "" Fold control
-if exists("b:javascript_fold")
+if v:version >= 600 && (exists("b:javascript_fold") ? get(b:, "javascript_fold") : get(g:, "javascript_fold"))
     syntax match   javaScriptFunction       /\<function\>/ nextgroup=javaScriptFuncName skipwhite
     syntax match   javaScriptOpAssign       /=\@<!=/ nextgroup=javaScriptFuncBlock skipwhite skipempty
     syntax region  javaScriptFuncName       contained matchgroup=javaScriptFuncName start=/\%(\$\|\w\)*\s*(/ end=/)/ contains=javaScriptLineComment,javaScriptComment nextgroup=javaScriptFuncBlock skipwhite skipempty
